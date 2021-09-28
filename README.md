@@ -16,6 +16,7 @@ DeepDanbooru is written by Python 3.6. Following packages are need to be install
 - requests>=2.22.0
 - scikit-image>=0.15.0
 - six>=1.13.0
+- filetype>=1.0.7
 
 Or just use `requirements.txt`.
 

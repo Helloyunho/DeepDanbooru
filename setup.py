@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 
 with open("deepdanbooru/__main__.py", encoding="utf-8") as f:
-    version = re.search("__version__ = '([^']+)'", f.read()).group(1)  # type: ignore
+    version = re.search('__version__ = "([^"]+)"', f.read()).group(1)  # type: ignore
 
 
 install_requires = [
@@ -18,6 +18,7 @@ install_requires = [
     "scikit-image>=0.15.0",
     "requests>=2.22.0",
     "six>=1.13.0",
+    "filetype>=1.0.7",
 ]
 tensorflow_pkg = ["tensorflow>=2.3.1", "tensorflow_io>=0.16.0"]
 

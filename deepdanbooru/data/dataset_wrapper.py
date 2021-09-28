@@ -3,6 +3,7 @@ import random
 import numpy as np
 import tensorflow as tf
 import tensorflow_io as tfio
+import filetype
 
 import deepdanbooru as dd
 
@@ -42,7 +43,7 @@ class DatasetWrapper:
 
     def map_load_image(self, image_path, tag_string):
         image_raw = tf.io.read_file(image_path)
-        if image_path.endswith(".webp"):
+        if filetype.guess(image_path) == "image/webp":
             image = tfio.image.decode_webp(image_raw)
             image = tfio.experimental.color.rgba_to_rgb(image)
         else:

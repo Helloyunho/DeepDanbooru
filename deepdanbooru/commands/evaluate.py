@@ -8,7 +8,10 @@ import deepdanbooru as dd
 
 
 def evaluate_image(
-    image_input: Union[str, six.BytesIO], model: Any, tags: List[str], threshold: float
+    image_input: Union[str, six.BytesIO, bytes],
+    model: Any,
+    tags: List[str],
+    threshold: float,
 ) -> Iterable[Tuple[str, float]]:
     width = model.input_shape[2]
     height = model.input_shape[1]
@@ -83,8 +86,7 @@ def evaluate(
         tags = dd.project.load_tags_from_project(project_path)
 
     for image_path in target_image_paths:
+        print("----------------------------------------")
         print(f"Tags of {image_path}:")
         for tag, score in evaluate_image(image_path, model, tags, threshold):
             print(f"({score:05.3f}) {tag}")
-
-        print()

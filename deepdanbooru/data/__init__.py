@@ -3,6 +3,7 @@ from typing import Any, Union
 import six
 import tensorflow as tf
 import tensorflow_io as tfio
+import filetype
 
 import deepdanbooru as dd
 
@@ -11,7 +12,7 @@ from .dataset_wrapper import DatasetWrapper
 
 
 def load_image_for_evaluate(
-    input_: Union[str, six.BytesIO],
+    input_: Union[str, six.BytesIO, bytes],
     width: int,
     height: int,
     normalize: bool = True,
@@ -19,9 +20,14 @@ def load_image_for_evaluate(
 ) -> Any:
     if isinstance(input_, six.BytesIO):
         image_raw = input_.getvalue()
-    else:
+        is_WebP = is_WebP or filetype.guess(image_raw) == "image/webp"
+    elif isinstance(input_, str):
         image_raw = tf.io.read_file(input_)
-        is_WebP = is_WebP or input_.endswith(".webp")
+        is_WebP = is_WebP or filetype.guess(input_) == "image/webp"
+    else:
+        image_raw = input_
+        is_WebP = is_WebP or filetype.guess(image_raw) == "image/webp"
+
     if is_WebP:
         image = tfio.image.decode_webp(image_raw)
         image = tfio.experimental.color.rgba_to_rgb(image)
